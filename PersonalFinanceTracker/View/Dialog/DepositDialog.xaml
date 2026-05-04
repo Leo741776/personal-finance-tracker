@@ -1,0 +1,49 @@
+﻿<Window x:Class="PersonalFinanceTracker.View.Dialog.DepositDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Deposit"
+        Width="360"
+        Height="300"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#F4F7FB">
+    <Border Margin="20"
+            Padding="22"
+            Background="White"
+            CornerRadius="14"
+            BorderBrush="#E6E6E6"
+            BorderThickness="1">
+        <StackPanel>
+            <TextBlock Text="Deposit to Savings"
+                       Margin="0,0,0,16"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Foreground="#1F375D" />
+
+            <TextBlock Text="Amount"
+                       FontWeight="SemiBold"
+                       Foreground="#1F375D" />
+
+            <TextBox x:Name="AmountBox"
+                     Height="36"
+                     Margin="0,6,0,18"
+                     Padding="10" />
+
+            <StackPanel HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                <Button Content="Cancel"
+                        Width="90"
+                        Height="36"
+                        Margin="0,0,8,0"
+                        Click="CancelButton_Click" />
+
+                <Button Content="Deposit"
+                        Width="90"
+                        Height="36"
+                        Background="#0C4C8A"
+                        Foreground="White"
+                        Click="DepositButton_Click" />
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>

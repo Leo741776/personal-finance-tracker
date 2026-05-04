@@ -1,0 +1,153 @@
+﻿<Window x:Class="PersonalFinanceTracker.View.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:PersonalFinanceTracker.View"
+        xmlns:vm="clr-namespace:PersonalFinanceTracker.ViewModel"
+        Title="Dashboard"
+        Width="1200"
+        Height="700"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        mc:Ignorable="d"
+        Background="#F4F7FB">
+    <Window.Resources>
+        <SolidColorBrush x:Key="PrimaryDark" Color="#1F375D" />
+        <SolidColorBrush x:Key="PrimaryBlue" Color="#0C4C8A" />
+        <SolidColorBrush x:Key="AccentLight" Color="#ADDDFE" />
+        <SolidColorBrush x:Key="AccentSoft" Color="#97D5E0" />
+
+        <DataTemplate DataType="{x:Type vm:CashViewModel}">
+            <views:CashView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:BrokerageViewModel}">
+            <views:BrokerageView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:SavingsViewModel}">
+            <views:SavingsView />
+        </DataTemplate>
+
+        <Style x:Key="NavButtonStyle" TargetType="RadioButton">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="12" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="Border"
+                                Padding="{TemplateBinding Padding}"
+                                Background="Transparent"
+                                CornerRadius="6">
+                            <ContentPresenter VerticalAlignment="Center" />
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#0C4C8A" />
+                            </Trigger>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#97D5E0" />
+                                <Setter Property="Foreground" Value="#1F375D" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LogoutButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="#1F375D" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <TextBlock Text="{TemplateBinding Content}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   TextDecorations="Underline" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0"
+                Background="#1F375D">
+            <StackPanel Margin="10">
+                <TextBlock Text="Finance Tracker"
+                           Margin="10,20,10,30"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Foreground="White" />
+
+                <RadioButton Content="Cash"
+                             GroupName="Nav"
+                             IsChecked="True"
+                             Command="{Binding ShowCashViewCommand}"
+                             Style="{StaticResource NavButtonStyle}" />
+
+                <RadioButton Content="Savings"
+                             GroupName="Nav"
+                             Command="{Binding ShowSavingsViewCommand}"
+                             Style="{StaticResource NavButtonStyle}" />
+
+                <RadioButton Content="Brokerage"
+                             GroupName="Nav"
+                             Command="{Binding ShowBrokerageViewCommand}"
+                             Style="{StaticResource NavButtonStyle}" />
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0"
+                    Padding="20"
+                    Background="White"
+                    BorderBrush="#E6E6E6"
+                    BorderThickness="0,0,0,1">
+                <StackPanel HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                    <TextBlock Text="{Binding CurrentUserFullName}"
+                               VerticalAlignment="Center"
+                               FontSize="16"
+                               FontWeight="SemiBold"
+                               Foreground="#1F375D" />
+
+                    <TextBlock Width="15" />
+
+                    <Button Content="Logout"
+                            VerticalAlignment="Center"
+                            Command="{Binding LogoutCommand}"
+                            Style="{StaticResource LogoutButtonStyle}" />
+                </StackPanel>
+            </Border>
+
+            <Grid Grid.Row="1"
+                  Margin="20">
+                <ContentControl Content="{Binding CurrentViewModel}" />
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

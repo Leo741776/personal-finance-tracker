@@ -1,0 +1,442 @@
+﻿<UserControl x:Class="PersonalFinanceTracker.View.BrokerageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d"
+             Background="#F4F7FB">
+    <UserControl.Resources>
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="14" />
+            <Setter Property="Padding" Value="24" />
+            <Setter Property="BorderBrush" Value="#E6E6E6" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+
+        <Style x:Key="PrimaryActionButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#0C4C8A" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Height" Value="38" />
+            <Setter Property="Margin" Value="0,18,0,0" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Padding" Value="16,0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="InputTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Margin" Value="0,6,0,0" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Background" Value="#F5F9FC" />
+            <Setter Property="BorderBrush" Value="#97D5E0" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Height" Value="36" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Foreground" Value="#1F375D" />
+        </Style>
+
+        <Style x:Key="InputComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Margin" Value="0,6,0,0" />
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="Background" Value="#F5F9FC" />
+            <Setter Property="BorderBrush" Value="#97D5E0" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Height" Value="36" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Foreground" Value="#1F375D" />
+        </Style>
+
+        <Style x:Key="InputDatePickerStyle" TargetType="DatePicker">
+            <Setter Property="Margin" Value="0,6,0,0" />
+            <Setter Property="Background" Value="#F5F9FC" />
+            <Setter Property="BorderBrush" Value="#97D5E0" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Height" Value="36" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Foreground" Value="#1F375D" />
+        </Style>
+
+        <Style x:Key="InputLabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#1F375D" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+
+        <Style x:Key="HoldingsGridHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#F4F7FB" />
+            <Setter Property="Foreground" Value="#1F375D" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="BorderBrush" Value="#E6E6E6" />
+            <Setter Property="BorderThickness" Value="0,0,0,1" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style x:Key="HoldingsGridCellStyle" TargetType="DataGridCell">
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="#1F375D" />
+            <Setter Property="FontSize" Value="13" />
+        </Style>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="1.35*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <Border Margin="0,0,0,20"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            Style="{StaticResource CardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="Total Portfolio Value"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
+                                       Foreground="#1F375D" />
+
+                            <TextBlock Text="{Binding TotalPortfolioValue, StringFormat={}{0:C}}"
+                                       Margin="0,8,0,0"
+                                       FontSize="34"
+                                       FontWeight="Bold"
+                                       Foreground="#0C4C8A" />
+
+                            <TextBlock Text="Holdings + Brokerage Cash"
+                                       Margin="0,4,0,0"
+                                       FontSize="13"
+                                       Foreground="#7A7A7A" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Margin="0,0,0,20"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            Style="{StaticResource CardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="Total Gain/Loss"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
+                                       Foreground="#1F375D" />
+
+                            <StackPanel Margin="0,8,0,0"
+                                        Orientation="Horizontal">
+                                <TextBlock Text="{Binding TotalGainLoss, StringFormat={}{0:C}}"
+                                           FontSize="34"
+                                           FontWeight="Bold">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="#2E7D32" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsTotalGainLossNegative}" Value="True">
+                                                    <Setter Property="Foreground" Value="#C62828" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+
+                                <TextBlock Text="{Binding TotalGainLossPercent, StringFormat={} ({0:F2}%)}"
+                                           Margin="12,0,0,5"
+                                           VerticalAlignment="Bottom"
+                                           FontSize="22"
+                                           FontWeight="SemiBold">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="#2E7D32" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsTotalGainLossNegative}" Value="True">
+                                                    <Setter Property="Foreground" Value="#C62828" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+
+                            <TextBlock Text="Unrealized gain/loss across all holdings"
+                                       Margin="0,4,0,0"
+                                       FontSize="13"
+                                       Foreground="#7A7A7A" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            Style="{StaticResource CardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="Day Change"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
+                                       Foreground="#1F375D" />
+
+                            <StackPanel Margin="0,8,0,0"
+                                        Orientation="Horizontal">
+                                <TextBlock Text="{Binding DayChange, StringFormat={}{0:C}}"
+                                           FontSize="34"
+                                           FontWeight="Bold">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="#2E7D32" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsDayChangeNegative}" Value="True">
+                                                    <Setter Property="Foreground" Value="#C62828" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+
+                                <TextBlock Text="{Binding DayChangePercent, StringFormat={} ({0:F2}%)}"
+                                           Margin="12,0,0,5"
+                                           VerticalAlignment="Bottom"
+                                           FontSize="22"
+                                           FontWeight="SemiBold">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="#2E7D32" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsDayChangeNegative}" Value="True">
+                                                    <Setter Property="Foreground" Value="#C62828" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+
+                            <TextBlock Text="Today's portfolio movement"
+                                       Margin="0,4,0,0"
+                                       FontSize="13"
+                                       Foreground="#7A7A7A" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <Border Grid.Column="2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="8" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="18" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0"
+                                   Text="Allocation Breakdown"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Foreground="#1F375D" />
+
+                        <TextBlock Grid.Row="2"
+                                   Text="Asset / sector allocation by percentage"
+                                   FontSize="13"
+                                   Foreground="#7A7A7A" />
+
+                        <lvc:PieChart Grid.Row="4"
+                                      MinHeight="420"
+                                      LegendPosition="Right"
+                                      Series="{Binding AllocationSeries}"
+                                      TooltipPosition="Top" />
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Border Grid.Row="2"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource CardStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="18" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="Add Stock"
+                               FontSize="16"
+                               FontWeight="SemiBold"
+                               Foreground="#1F375D" />
+
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="16" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="14" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Grid.Column="0">
+                            <TextBlock Text="Name"
+                                       Style="{StaticResource InputLabelStyle}" />
+
+                            <ComboBox ItemsSource="{Binding StockSuggestions}"
+                                      SelectedItem="{Binding SelectedStockSuggestion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      Text="{Binding NewStockSearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      DisplayMemberPath="DisplayName"
+                                      IsEditable="True"
+                                      IsTextSearchEnabled="False"
+                                      StaysOpenOnEdit="True"
+                                      Style="{StaticResource InputComboBoxStyle}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="0" Grid.Column="2">
+                            <TextBlock Text="Quantity"
+                                       Style="{StaticResource InputLabelStyle}" />
+
+                            <TextBox Text="{Binding NewStockQuantity, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{StaticResource InputTextBoxStyle}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="0" Grid.Column="4">
+                            <TextBlock Text="Price"
+                                       Style="{StaticResource InputLabelStyle}" />
+
+                            <TextBox Text="{Binding NewStockPrice, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{StaticResource InputTextBoxStyle}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" Grid.Column="0">
+                            <TextBlock Text="Date"
+                                       Style="{StaticResource InputLabelStyle}" />
+
+                            <DatePicker SelectedDate="{Binding NewStockDate, UpdateSourceTrigger=PropertyChanged}"
+                                        Style="{StaticResource InputDatePickerStyle}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" Grid.Column="2">
+                            <TextBlock Text="Fees"
+                                       Style="{StaticResource InputLabelStyle}" />
+
+                            <TextBox Text="{Binding NewStockFees, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{StaticResource InputTextBoxStyle}" />
+                        </StackPanel>
+
+                        <Button Grid.Row="2"
+                                Grid.Column="4"
+                                Content="Add Stock"
+                                VerticalAlignment="Bottom"
+                                Command="{Binding AddStockCommand}"
+                                Style="{StaticResource PrimaryActionButtonStyle}" />
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="4"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource CardStyle}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="16" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="Holdings"
+                               FontSize="16"
+                               FontWeight="SemiBold"
+                               Foreground="#1F375D" />
+
+                    <DataGrid Grid.Row="2"
+                              ItemsSource="{Binding Holdings}"
+                              MinHeight="260"
+                              AutoGenerateColumns="False"
+                              CanUserSortColumns="True"
+                              IsReadOnly="True"
+                              HeadersVisibility="Column"
+                              GridLinesVisibility="None"
+                              RowHeaderWidth="0"
+                              BorderThickness="0"
+                              Background="White"
+                              AlternatingRowBackground="#F4F7FB"
+                              ColumnHeaderStyle="{StaticResource HoldingsGridHeaderStyle}"
+                              CellStyle="{StaticResource HoldingsGridCellStyle}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Ticker"
+                                                Binding="{Binding Ticker}"
+                                                SortMemberPath="Ticker"
+                                                Width="*" />
+
+                            <DataGridTextColumn Header="Name"
+                                                Binding="{Binding Name}"
+                                                SortMemberPath="Name"
+                                                Width="2*" />
+
+                            <DataGridTextColumn Header="Shares"
+                                                Binding="{Binding Shares, StringFormat={}{0:N4}}"
+                                                SortMemberPath="Shares"
+                                                Width="*" />
+
+                            <DataGridTextColumn Header="Avg Cost"
+                                                Binding="{Binding AverageCost, StringFormat={}{0:C}}"
+                                                SortMemberPath="AverageCost"
+                                                Width="*" />
+
+                            <DataGridTextColumn Header="Price"
+                                                Binding="{Binding CurrentPrice, StringFormat={}{0:C}}"
+                                                SortMemberPath="CurrentPrice"
+                                                Width="*" />
+
+                            <DataGridTextColumn Header="Value"
+                                                Binding="{Binding MarketValue, StringFormat={}{0:C}}"
+                                                SortMemberPath="MarketValue"
+                                                Width="*" />
+
+                            <DataGridTextColumn Header="Gain/Loss"
+                                                Binding="{Binding GainLoss, StringFormat={}{0:C}}"
+                                                SortMemberPath="GainLoss"
+                                                Width="*" />
+
+                            <DataGridTextColumn Header="Allocation %"
+                                                Binding="{Binding AllocationPercent, StringFormat={}{0:F2}%}"
+                                                SortMemberPath="AllocationPercent"
+                                                Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</UserControl>
