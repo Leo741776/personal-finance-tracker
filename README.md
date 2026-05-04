@@ -35,15 +35,15 @@ Overall, the design separates UI, state management, business rules, persistence,
 
 ## Screenshots
 <p>
-    <img src="" width="49%">
-    <img src="" width="49%">
+    <img src="https://github.com/user-attachments/assets/c6a21272-dce7-49db-aece-7093574c70b7" width="49%">
+    <img src="https://github.com/user-attachments/assets/187259f5-9bfe-4cd2-b7c3-f0c3b39b8336" width="49%">
 </p>
 
 <p>
-    <img src="" width="49%">
-    <img src="" width="49%">
+    <img src="https://github.com/user-attachments/assets/502ec089-07a5-4813-a88f-2e7403474c16" width="49%">
+    <img src="https://github.com/user-attachments/assets/91b58e36-c1a1-4dac-9f42-d9569d9eeeb5" width="49%">
 </p>
 
 <p>
-    <img src="" width="49%">
+    <img src="https://github.com/user-attachments/assets/fa26b87a-0cdc-49c8-af56-e47a691dcddd" width="49%">
 </p>
