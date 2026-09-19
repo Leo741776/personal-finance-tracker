@@ -1,6 +1,12 @@
 # Personal Finance Tracker
 This is a desktop personal finance tracking application that lets users register/login and manage different parts of their finances from a dashboard-style interface.
 
+## Screenshots
+<p align="center">
+  <img src="media/1.png" width="45%"/>
+  <img src="media/2.png" width="45%"/>
+</p>
+
 ## Overview
 It tracks three main areas:
 + Cash: Shows the user’s cash balance, lets them add cash and transactions, tracks monthly spending, compares spending against a monthly budget, and displays cash flow/net cash change charts.
@@ -32,10 +38,3 @@ Overall, the design separates UI, state management, business rules, persistence,
 + AlphaVantage API - real time stock data retrieval
 + Firebase Firestore - cloud database
 + LiveCharts2 - dynamic line and pie charts
-
-## Screenshots
-
-<p align="center">
-  <img src="media/1.png" width="45%"/>
-  <img src="media/2.png" width="45%"/>
-</p>
